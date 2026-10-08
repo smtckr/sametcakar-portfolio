@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-script: 'Rock Salt', cursive;
+    --font-mono: 'JetBrains Mono', monospace;
+    color-scheme: light;
+  }
+
+  :root.dark, .dark {
+    color-scheme: dark;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  background-color: #ffffff;
+  color: #171717;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.dark body, body.dark {
+  background-color: #0a0a0a;
+  color: #ededed;
+}
+
+.font-script {
+  font-family: var(--font-script);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Landing hero character staggered kinetic entrance */
+@keyframes landingHeroCharIn {
+  0% {
+    opacity: 0;
+    transform: translateY(32px) scale(0.85) rotate(-6deg);
+    filter: blur(10px);
+  }
+  60% {
+    transform: translateY(-6px) scale(1.06) rotate(2deg);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+    filter: blur(0px);
+  }
+}
+
+.landing-hero-char {
+  display: inline-block;
+  opacity: 0;
+  animation: landingHeroCharIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--landing-char-delay, 0.1s);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease, text-shadow 0.2s ease;
+  user-select: none;
+  cursor: default;
+}
+
+.landing-hero-char-first:hover {
+  transform: translateY(-10px) scale(1.18) rotate(5deg);
+  color: #3b82f6 !important;
+  text-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
+}
+
+.landing-hero-char-last:hover {
+  transform: translateY(-10px) scale(1.18) rotate(-5deg);
+  color: #000000 !important;
+  text-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.dark .landing-hero-char-last:hover {
+  color: #ffffff !important;
+  text-shadow: 0 10px 20px rgba(255, 255, 255, 0.4);
+}
+
+/* Bold distinct grid backdrop */
+.bg-grid-pattern {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.09) 2px, transparent 2px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.09) 2px, transparent 2px);
+}
+
+.dark .bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.08) 2px, transparent 2px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 2px, transparent 2px);
+}
+
+/* Custom sleek scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(150, 150, 150, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 150, 150, 0.5);
+}

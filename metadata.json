@@ -1,0 +1,6 @@
+{
+  "name": "Samet Çakar - Portfolyo",
+  "description": "Samet Çakar kişisel portfolyosu. AI Video Prodüksiyonu (Synthesia, Premiere, Final Cut), ComfyUI & Flux2 üretici yapay zeka, Arçelik-Beko eğitim video süreçleri ve modern web arayüzleri.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
