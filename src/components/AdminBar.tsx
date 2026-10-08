@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useAdmin } from '../context/AdminContext';
 import { useLanguage } from '../context/LanguageContext';
-import { CheckCircle2, LogOut, UploadCloud } from 'lucide-react';
+import { CheckCircle2, LogOut, UploadCloud, Image as ImageIcon } from 'lucide-react';
 
 export const AdminBar: React.FC = () => {
-  const { isAdmin, logout, publishChanges, hasUnpublishedChanges } = useAdmin();
+  const { isAdmin, logout, publishChanges, hasUnpublishedChanges, openHeroImageModal } = useAdmin();
   const { t } = useLanguage();
   const [publishedToast, setPublishedToast] = useState(false);
 
@@ -57,6 +57,15 @@ export const AdminBar: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={openHeroImageModal}
+              className="px-3 py-1.5 rounded-lg text-xs font-semibold text-blue-200 hover:text-white hover:bg-blue-900/60 transition-colors flex items-center gap-1.5 border border-blue-700/60"
+              title={t('Hero portre görselini (9:16) yükle veya değiştir', 'Upload or change hero portrait image (9:16)')}
+            >
+              <ImageIcon className="w-3.5 h-3.5 text-blue-400" />
+              <span>{t('Hero Görseli (9:16)', 'Hero Image (9:16)')}</span>
+            </button>
+
             <button
               onClick={handlePublish}
               className={`px-3.5 py-1.5 rounded-lg text-xs font-bold font-sans flex items-center gap-1.5 transition-all shadow-md active:scale-95 ${

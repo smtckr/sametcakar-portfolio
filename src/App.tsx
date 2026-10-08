@@ -14,6 +14,7 @@ import { ArticleModal, Article } from './components/ArticleModal';
 import { CommandPalette } from './components/CommandPalette';
 import { AdminBar } from './components/AdminBar';
 import { AdminLoginModal } from './components/AdminLoginModal';
+import { HeroImageModal } from './components/HeroImageModal';
 import { AdminProvider } from './context/AdminContext';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { initialResumeData, Project } from './data/resume';
@@ -158,6 +159,9 @@ function MainApp() {
 
       {/* Secret Admin Login Modal */}
       <AdminLoginModal />
+
+      {/* 9:16 Hero Image Admin Upload Modal */}
+      <HeroImageModal />
     </div>
   );
 }

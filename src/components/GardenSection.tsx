@@ -10,6 +10,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { ProfileAvatar } from './ProfileAvatar';
 
 interface GardenSectionProps {
   email: string;
@@ -148,6 +149,23 @@ export const GardenSection: React.FC<GardenSectionProps> = ({ email }) => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Quick Metrics & Direct Email Card */}
         <div className="lg:col-span-5 space-y-4">
+          {/* Personal Bio Card */}
+          <div className="p-5 rounded-2xl border border-neutral-200/90 dark:border-neutral-800/90 bg-white/70 dark:bg-neutral-900/50 backdrop-blur-sm flex items-center gap-4">
+            <ProfileAvatar size="md" showStatus={true} allowUpload={false} />
+            <div>
+              <h3 className="text-sm font-bold text-neutral-900 dark:text-neutral-100">
+                Samet Çakar
+              </h3>
+              <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                {t('Arçelik · Beko · Grundig Video Lead', 'Arçelik · Beko · Grundig Video Lead')}
+              </p>
+              <span className="inline-flex items-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                {t('Yeni projeler & iş birlikleri için hazır', 'Ready for new projects & collaborations')}
+              </span>
+            </div>
+          </div>
+
           {/* Direct Email Card */}
           <div className="p-6 rounded-2xl border border-neutral-200/90 dark:border-neutral-800/90 bg-white/70 dark:bg-neutral-900/50 backdrop-blur-sm">
             <div className="flex items-center gap-3 mb-4">

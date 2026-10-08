@@ -6,10 +6,16 @@ interface AdminContextType {
   logout: () => void;
   projectImages: Record<string, string>;
   setProjectImage: (title: string, url: string) => void;
+  heroImage: string;
+  setHeroImage: (url: string) => void;
+  removeHeroImage: () => void;
   publishChanges: () => void;
   isLoginModalOpen: boolean;
   openLoginModal: () => void;
   closeLoginModal: () => void;
+  isHeroImageModalOpen: boolean;
+  openHeroImageModal: () => void;
+  closeHeroImageModal: () => void;
   hasUnpublishedChanges: boolean;
 }
 
@@ -18,6 +24,8 @@ const AdminContext = createContext<AdminContextType | undefined>(undefined);
 const ADMIN_STORAGE_KEY = 'sametcakar_admin_auth';
 const PUBLISHED_IMAGES_KEY = 'sametcakar_published_images';
 const DRAFT_IMAGES_KEY = 'sametcakar_draft_images';
+const PUBLISHED_HERO_KEY = 'sametcakar_published_hero_image';
+const DRAFT_HERO_KEY = 'sametcakar_draft_hero_image';
 
 // Default secure admin credentials (can be changed by Samet)
 const DEFAULT_USER = 'admin';
@@ -32,7 +40,18 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   });
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isHeroImageModalOpen, setIsHeroImageModalOpen] = useState(false);
   const [hasUnpublishedChanges, setHasUnpublishedChanges] = useState(false);
+
+  // Load published hero 9:16 image
+  const [heroImage, setHeroImageState] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const draft = localStorage.getItem(DRAFT_HERO_KEY);
+      const published = localStorage.getItem(PUBLISHED_HERO_KEY);
+      return draft || published || '';
+    }
+    return '';
+  });
 
   // Load published images, or draft images if admin is active
   const [projectImages, setProjectImagesState] = useState<Record<string, string>>(() => {
@@ -85,10 +104,34 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     });
   };
 
+  const setHeroImage = (url: string) => {
+    setHeroImageState(url);
+    setHasUnpublishedChanges(true);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(DRAFT_HERO_KEY, url);
+      localStorage.setItem(PUBLISHED_HERO_KEY, url);
+    }
+  };
+
+  const removeHeroImage = () => {
+    setHeroImageState('');
+    setHasUnpublishedChanges(true);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(DRAFT_HERO_KEY);
+      localStorage.removeItem(PUBLISHED_HERO_KEY);
+    }
+  };
+
   const publishChanges = () => {
     if (typeof window !== 'undefined') {
       localStorage.setItem(PUBLISHED_IMAGES_KEY, JSON.stringify(projectImages));
+      if (heroImage) {
+        localStorage.setItem(PUBLISHED_HERO_KEY, heroImage);
+      } else {
+        localStorage.removeItem(PUBLISHED_HERO_KEY);
+      }
       localStorage.removeItem(DRAFT_IMAGES_KEY);
+      localStorage.removeItem(DRAFT_HERO_KEY);
     }
     setHasUnpublishedChanges(false);
   };
@@ -101,10 +144,16 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         logout,
         projectImages,
         setProjectImage,
+        heroImage,
+        setHeroImage,
+        removeHeroImage,
         publishChanges,
         isLoginModalOpen,
         openLoginModal: () => setIsLoginModalOpen(true),
         closeLoginModal: () => setIsLoginModalOpen(false),
+        isHeroImageModalOpen,
+        openHeroImageModal: () => setIsHeroImageModalOpen(true),
+        closeHeroImageModal: () => setIsHeroImageModalOpen(false),
         hasUnpublishedChanges,
       }}
     >
