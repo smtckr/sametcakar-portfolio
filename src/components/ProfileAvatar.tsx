@@ -1,59 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { Camera, Sparkles, User, Maximize2, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sparkles, User, Maximize2, X } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { useAdmin } from '../context/AdminContext';
 
 interface ProfileAvatarProps {
   size?: 'sm' | 'md' | 'lg' | 'hero';
   showStatus?: boolean;
-  allowUpload?: boolean;
   className?: string;
 }
 
 export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
-  size = 'hero',
+  size = 'md',
   showStatus = true,
-  allowUpload = true,
   className = '',
 }) => {
   const { t } = useLanguage();
-  const { isAdmin, avatarUrl: adminAvatarUrl, openPhotoModal } = useAdmin();
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [imgError, setImgError] = useState(false);
+  const [imageFailed, setImageFailed] = useState(false);
   const [showZoomModal, setShowZoomModal] = useState(false);
 
-  // Sync avatar with admin context and local storage
-  useEffect(() => {
-    const loadAvatar = () => {
-      if (adminAvatarUrl) {
-        setAvatarUrl(adminAvatarUrl);
-        setImgError(false);
-        return;
-      }
-      try {
-        const saved = localStorage.getItem('samet_avatar');
-        if (saved) {
-          setAvatarUrl(saved);
-          setImgError(false);
-          return;
-        }
-      } catch {
-        // ignore storage errors
-      }
-      // Fallback
-      setAvatarUrl('/samet-cakar.jpg');
-      setImgError(false);
-    };
-
-    loadAvatar();
-
-    const handleAvatarUpdate = () => {
-      loadAvatar();
-    };
-
-    window.addEventListener('avatar-updated', handleAvatarUpdate);
-    return () => window.removeEventListener('avatar-updated', handleAvatarUpdate);
-  }, [adminAvatarUrl]);
+  // Directly loaded from /public/hero-portrait.jpg (same photo as hero portrait)
+  const activeAvatar = !imageFailed ? '/hero-portrait.jpg' : '';
 
   const sizeClasses = {
     sm: 'w-10 h-10 rounded-full',
@@ -62,113 +27,48 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
     hero: 'w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 rounded-3xl',
   };
 
-  const hasPhoto = !!avatarUrl && !imgError;
-  const canAdminEdit = isAdmin && allowUpload;
-
   return (
     <>
-      <div className={`relative group inline-block select-none ${className}`}>
-        {/* Subtle Ambient Studio Glow for Hero */}
+      <div className={`relative group inline-block select-none shrink-0 ${className}`}>
+        {/* Subtle Ambient Studio Glow for Hero size */}
         {size === 'hero' && (
           <div className="absolute -inset-2 bg-gradient-to-tr from-blue-600/25 via-purple-600/20 to-emerald-500/20 rounded-[32px] blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
         )}
 
-        {/* Outer Frame with Double-Border & Glassmorphism */}
+        {/* Outer Frame with Border & Glassmorphism */}
         <div
-          className={`relative ${sizeClasses[size]} p-1.5 sm:p-2 bg-white/80 dark:bg-neutral-900/80 border border-neutral-200/90 dark:border-neutral-800/90 shadow-xl dark:shadow-2xl backdrop-blur-md transition-all duration-300 group-hover:border-neutral-400 dark:group-hover:border-neutral-600`}
+          className={`relative ${sizeClasses[size]} p-1 bg-white/90 dark:bg-neutral-900/90 border border-neutral-200/90 dark:border-neutral-800/90 shadow-md backdrop-blur-md transition-all duration-300 group-hover:border-blue-500/50`}
         >
           {/* Inner Image Container */}
           <div
-            className={`relative w-full h-full rounded-[22px] overflow-hidden bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center ${
-              hasPhoto && !canAdminEdit ? 'cursor-zoom-in' : ''
+            className={`relative w-full h-full rounded-xl overflow-hidden bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center ${
+              activeAvatar ? 'cursor-zoom-in' : ''
             }`}
             onClick={() => {
-              if (hasPhoto && !canAdminEdit) {
+              if (activeAvatar) {
                 setShowZoomModal(true);
               }
             }}
           >
-            {hasPhoto ? (
+            {activeAvatar ? (
               <img
-                src={avatarUrl}
+                src={activeAvatar}
                 alt="Samet Çakar"
-                onError={() => setImgError(true)}
-                className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                onError={() => setImageFailed(true)}
+                // object-[center_18%] focuses on the face of the 9:16 portrait
+                className="w-full h-full object-cover object-[center_18%] transition-transform duration-500 group-hover:scale-105"
                 referrerPolicy="no-referrer"
               />
             ) : (
-              /* Sleek Creator Fallback State with SÇ Monogram and Studio Mesh */
-              <div className="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-950 text-white p-4">
-                {/* Subtle Grid Backdrop */}
-                <div className="absolute inset-0 bg-[radial-gradient(#ffffff20_1px,transparent_1px)] [background-size:10px_10px] opacity-40 pointer-events-none" />
-                
-                {/* Creator Camera / Video Glyph */}
-                <div className="relative z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center mb-2 shadow-inner group-hover:scale-110 transition-transform">
-                  <User className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
+              /* Sleek Creator Fallback State */
+              <div className="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-neutral-800 to-neutral-950 text-white p-2">
+                <div className="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400">
+                  <User className="w-4 h-4" />
                 </div>
-                
-                {/* Initials & Title */}
-                <span className="relative z-10 font-bold text-base sm:text-lg tracking-wider text-neutral-100">
-                  SAMET ÇAKAR
-                </span>
-                <span className="relative z-10 text-[10px] sm:text-xs text-neutral-400 tracking-wide font-mono mt-0.5">
-                  Video & AI
-                </span>
-              </div>
-            )}
-
-            {/* Admin-Only Overlay: Edit / Upload controls */}
-            {canAdminEdit && (
-              <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-2 p-2">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openPhotoModal();
-                  }}
-                  className="px-3 py-1.5 rounded-xl bg-white text-neutral-900 hover:bg-neutral-100 text-xs font-semibold flex items-center gap-1.5 shadow-lg active:scale-95 transition-all"
-                  title={t('Profil Fotoğrafını Yönet (Yönetici)', 'Manage Photo (Admin)')}
-                >
-                  <Camera className="w-3.5 h-3.5 text-blue-600" />
-                  <span>{hasPhoto ? t('Değiştir (Admin)', 'Change (Admin)') : t('Fotoğraf Ekle', 'Add Photo')}</span>
-                </button>
-
-                {hasPhoto && (
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowZoomModal(true);
-                    }}
-                    className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-white text-xs transition-colors"
-                    title={t('Büyük Görseli İncele', 'View Fullscreen')}
-                  >
-                    <Maximize2 className="w-3.5 h-3.5" />
-                  </button>
-                )}
-              </div>
-            )}
-
-            {/* Normal Visitor Photo Zoom Hint (only if photo exists and NOT admin) */}
-            {!canAdminEdit && hasPhoto && (
-              <div className="absolute bottom-2 right-2 p-1.5 rounded-lg bg-black/40 text-white/80 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                <Maximize2 className="w-3.5 h-3.5" />
               </div>
             )}
           </div>
         </div>
-
-        {/* Admin Editable Indicator Badge */}
-        {canAdminEdit && (
-          <button
-            type="button"
-            onClick={openPhotoModal}
-            className="absolute -top-2 -right-2 z-30 p-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white shadow-lg border-2 border-white dark:border-neutral-900 transition-transform hover:scale-110 active:scale-95"
-            title={t('Fotoğrafı Değiştir (Yönetici)', 'Change Photo (Admin)')}
-          >
-            <Camera className="w-3.5 h-3.5" />
-          </button>
-        )}
 
         {/* Live Availability Status Badge (Green Pulsing Dot) */}
         {showStatus && size === 'hero' && (
@@ -195,7 +95,7 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
       </div>
 
       {/* Fullscreen Photo Zoom Modal */}
-      {showZoomModal && hasPhoto && (
+      {showZoomModal && activeAvatar && (
         <div
           role="dialog"
           aria-modal="true"
@@ -203,12 +103,12 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
           onClick={() => setShowZoomModal(false)}
         >
           <div
-            className="relative max-w-2xl max-h-[90vh] bg-neutral-900 rounded-3xl overflow-hidden shadow-2xl border border-neutral-800 flex flex-col"
+            className="relative max-w-md max-h-[90vh] bg-neutral-900 rounded-3xl overflow-hidden shadow-2xl border border-neutral-800 flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between p-4 border-b border-neutral-800 bg-neutral-950/80">
               <div className="text-white text-xs font-mono font-medium">
-                Samet Çakar · Portfolyo
+                Samet Çakar · Portre
               </div>
               <button
                 type="button"
@@ -218,11 +118,11 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="p-3 flex items-center justify-center bg-black/50">
+            <div className="p-4 flex items-center justify-center bg-black/50">
               <img
-                src={avatarUrl!}
+                src={activeAvatar}
                 alt="Samet Çakar"
-                className="max-h-[75vh] w-auto object-contain rounded-2xl shadow-xl"
+                className="max-h-[75vh] w-auto aspect-[9/16] object-cover rounded-2xl shadow-xl"
               />
             </div>
           </div>

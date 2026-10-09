@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Clock } from 'lucide-react';
-import { useAdmin } from '../context/AdminContext';
 import { useLanguage } from '../context/LanguageContext';
 
 export const Footer: React.FC = () => {
-  const { openLoginModal } = useAdmin();
   const { lang, t } = useLanguage();
   const [timeStr, setTimeStr] = useState<string>('');
 
@@ -55,33 +53,9 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Minimalist Copyright with secret admin trigger on "saklıdır" / "reserved" */}
-          <div className="text-xs font-mono text-neutral-400 dark:text-neutral-500 text-center sm:text-right select-none">
-            {lang === 'tr' ? (
-              <>
-                © {new Date().getFullYear()} Samet Çakar. Tüm hakları{' '}
-                <button
-                  onClick={openLoginModal}
-                  className="cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 transition-colors focus:outline-none underline-offset-2 hover:underline"
-                  title="Yönetici Girişi"
-                >
-                  saklıdır
-                </button>
-                .
-              </>
-            ) : (
-              <>
-                © {new Date().getFullYear()} Samet Çakar. All rights{' '}
-                <button
-                  onClick={openLoginModal}
-                  className="cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 transition-colors focus:outline-none underline-offset-2 hover:underline"
-                  title="Admin Access"
-                >
-                  reserved
-                </button>
-                .
-              </>
-            )}
+          {/* Minimalist Copyright */}
+          <div className="flex items-center justify-center sm:justify-end text-xs font-mono text-neutral-400 dark:text-neutral-500 select-none">
+            <span>© {new Date().getFullYear()} Samet Çakar. {t('Tüm hakları saklıdır.', 'All rights reserved.')}</span>
           </div>
         </div>
       </div>

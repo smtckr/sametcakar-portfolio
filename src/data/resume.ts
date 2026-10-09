@@ -211,6 +211,7 @@ export const initialResumeData: ResumeData = {
       descriptionEn: "Training video workflows for Arçelik, Beko, and Grundig: studio shooting, scriptwriting, Premiere/Final Cut editing, Synthesia AI avatar generation, and distribution tracking.",
       technologies: ["Synthesia AI", "Premiere Pro", "Final Cut Pro", "Movavi", "Senaryo Yazımı", "Video Prodüksiyon", "Süreç Yönetimi"],
       featured: true,
+      image: "/projects/arcelik-beko-video.jpg",
       mockupType: "workspace",
       links: [],
       caseStudy: {
@@ -240,6 +241,7 @@ export const initialResumeData: ResumeData = {
       descriptionEn: "Node-based generative pipeline running on local and cloud GPUs, chaining Flux2 and Krea2 engines with custom LoRAs and ControlNets for photorealistic outputs.",
       technologies: ["ComfyUI", "Flux2", "Krea2", "SDXL", "ControlNet", "Local AI", "Cloud GPU"],
       featured: true,
+      image: "/projects/comfyui-flux2.png",
       mockupType: "analytics",
       links: [],
       caseStudy: {
@@ -269,6 +271,7 @@ export const initialResumeData: ResumeData = {
       descriptionEn: "A proprietary editing plugin built for Premiere Pro and video workflows that cuts silence, generates smart subtitles, and triples post-production speed.",
       technologies: ["AI Plugins", "Premiere Pro API", "Python", "Qwen LLM", "Whisper", "FFmpeg"],
       featured: true,
+      image: "/projects/kurgu-plugin.png",
       mockupType: "monitoring",
       links: [],
       caseStudy: {
@@ -298,6 +301,7 @@ export const initialResumeData: ResumeData = {
       descriptionEn: "Cinematic concept video productions leveraging H3 (Hailuo / MiniMax) and Seedance models with realistic camera kinetics and motion physics.",
       technologies: ["H3 (Hailuo)", "Seedance", "Kling AI", "Prompt Mühendisliği", "Final Cut", "Ses Tasarımı"],
       featured: false,
+      image: "/projects/h3-seedance.jpg",
       mockupType: "componentKit",
       links: []
     },
@@ -309,6 +313,7 @@ export const initialResumeData: ResumeData = {
       descriptionEn: "Modern websites and interactive portfolio experiences built with React, Next.js, and Tailwind CSS featuring 60fps canvas animations.",
       technologies: ["React", "Next.js", "Tailwind CSS", "TypeScript", "Canvas 3D", "UI/UX"],
       featured: false,
+      image: "/projects/web-arayuz.png",
       mockupType: "ecommerce",
       links: []
     },
@@ -320,6 +325,7 @@ export const initialResumeData: ResumeData = {
       descriptionEn: "Short-form video optimization for Reels, Shorts, and TikTok with high-retention hooks, engagement analytics, and social media brand management.",
       technologies: ["Sosyal Medya", "Dikey Video", "Premiere Pro", "CapCut / Movavi", "Analitik", "Kitle Büyütme"],
       featured: false,
+      image: "/projects/sosyal-medya.jpg",
       mockupType: "community",
       links: []
     }

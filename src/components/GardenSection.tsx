@@ -151,7 +151,7 @@ export const GardenSection: React.FC<GardenSectionProps> = ({ email }) => {
         <div className="lg:col-span-5 space-y-4">
           {/* Personal Bio Card */}
           <div className="p-5 rounded-2xl border border-neutral-200/90 dark:border-neutral-800/90 bg-white/70 dark:bg-neutral-900/50 backdrop-blur-sm flex items-center gap-4">
-            <ProfileAvatar size="md" showStatus={true} allowUpload={false} />
+            <ProfileAvatar size="md" showStatus={true} />
             <div>
               <h3 className="text-sm font-bold text-neutral-900 dark:text-neutral-100">
                 Samet Çakar

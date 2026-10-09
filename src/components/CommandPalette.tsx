@@ -14,10 +14,8 @@ import {
   Sun,
   Video,
   Wand2,
-  ShieldCheck,
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { useAdmin } from '../context/AdminContext';
 
 interface CommandPaletteProps {
   isOpen: boolean;
@@ -46,7 +44,6 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   isDark,
 }) => {
   const { lang, t } = useLanguage();
-  const { isAdmin, openLoginModal, openHeroImageModal } = useAdmin();
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -241,26 +238,6 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       action: () => {
         onToggleTheme();
         onClose();
-      },
-    },
-
-    {
-      id: 'act-admin',
-      category: t('Yönetim', 'Admin'),
-      title: isAdmin
-        ? t('Hero Görseli Yükle (9:16)', 'Upload Hero Image (9:16)')
-        : t('Yönetici Girişi (Admin)', 'Admin Login'),
-      description: isAdmin
-        ? t('Hero portre fotoğrafını düzenle', 'Edit hero portrait photo')
-        : t('Görsel ve içerik yönetim modunu aç', 'Open visual management mode'),
-      icon: <ShieldCheck className="w-4 h-4 text-blue-500" />,
-      action: () => {
-        onClose();
-        if (isAdmin) {
-          openHeroImageModal();
-        } else {
-          openLoginModal();
-        }
       },
     },
   ];

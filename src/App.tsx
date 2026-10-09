@@ -12,10 +12,6 @@ import { FloatingDock } from './components/FloatingDock';
 import { ProjectModal } from './components/ProjectModal';
 import { ArticleModal, Article } from './components/ArticleModal';
 import { CommandPalette } from './components/CommandPalette';
-import { AdminBar } from './components/AdminBar';
-import { AdminLoginModal } from './components/AdminLoginModal';
-import { HeroImageModal } from './components/HeroImageModal';
-import { AdminProvider } from './context/AdminContext';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { initialResumeData, Project } from './data/resume';
 import { initialArticles } from './data/articles';
@@ -85,9 +81,6 @@ function MainApp() {
 
   return (
     <div className={`min-h-screen relative bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors duration-300 overflow-x-hidden selection:bg-blue-500 selection:text-white ${isDark ? 'dark' : ''}`}>
-      {/* Admin Mode Top Action Bar */}
-      <AdminBar />
-
       {/* 3D Floating Particles Background Canvas */}
       <FloatingParticles isDark={isDark} />
 
@@ -156,12 +149,6 @@ function MainApp() {
         onToggleTheme={() => setIsDark((prev) => !prev)}
         isDark={isDark}
       />
-
-      {/* Secret Admin Login Modal */}
-      <AdminLoginModal />
-
-      {/* 9:16 Hero Image Admin Upload Modal */}
-      <HeroImageModal />
     </div>
   );
 }
@@ -169,9 +156,7 @@ function MainApp() {
 export default function App() {
   return (
     <LanguageProvider>
-      <AdminProvider>
-        <MainApp />
-      </AdminProvider>
+      <MainApp />
     </LanguageProvider>
   );
 }

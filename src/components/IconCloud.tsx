@@ -773,17 +773,6 @@ export const IconCloud: React.FC<{ isDark?: boolean }> = ({ isDark = true }) => 
           className="cursor-grab active:cursor-grabbing max-w-[92vw] touch-none transition-transform duration-200"
           title={t('3D Araç Küresi - Döndürmek için sürükleyin', '3D Tech Sphere - Drag to rotate')}
         />
-
-        {/* Interaction hint */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none text-[11px] font-mono text-neutral-500 dark:text-neutral-400 bg-white/85 dark:bg-neutral-900/85 px-3.5 py-1 rounded-full border border-neutral-200/80 dark:border-neutral-800/80 shadow-sm opacity-70 group-hover:opacity-100 transition-opacity flex items-center gap-2">
-          <span>↻</span>
-          <span>
-            {t(
-              'Yavaş & Asimetrik 3D Dönüş · Fareyle hafifçe yavaşlar',
-              'Slow & Organic 3D Orbit · Damps on hover'
-            )}
-          </span>
-        </div>
       </div>
     </div>
   );
