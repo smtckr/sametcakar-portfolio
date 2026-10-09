@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Sparkles, User, Maximize2, X } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { getHeroImageCandidates } from '../utils/imageCandidates';
 
 interface ProfileAvatarProps {
   size?: 'sm' | 'md' | 'lg' | 'hero';
@@ -14,11 +15,20 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
   className = '',
 }) => {
   const { t } = useLanguage();
+  const avatarCandidates = useMemo(() => getHeroImageCandidates(), []);
+  const [candidateIndex, setCandidateIndex] = useState(0);
   const [imageFailed, setImageFailed] = useState(false);
   const [showZoomModal, setShowZoomModal] = useState(false);
 
-  // Directly loaded from /public/hero-portrait.jpg (same photo as hero portrait)
-  const activeAvatar = !imageFailed ? '/hero-portrait.jpg' : '';
+  const activeAvatar = !imageFailed && avatarCandidates.length > 0 ? avatarCandidates[candidateIndex] : '';
+
+  const handleAvatarError = () => {
+    if (candidateIndex + 1 < avatarCandidates.length) {
+      setCandidateIndex((prev) => prev + 1);
+    } else {
+      setImageFailed(true);
+    }
+  };
 
   const sizeClasses = {
     sm: 'w-10 h-10 rounded-full',
@@ -52,9 +62,10 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
           >
             {activeAvatar ? (
               <img
+                key={activeAvatar}
                 src={activeAvatar}
                 alt="Samet Çakar"
-                onError={() => setImageFailed(true)}
+                onError={handleAvatarError}
                 // object-[center_18%] focuses on the face of the 9:16 portrait
                 className="w-full h-full object-cover object-[center_18%] transition-transform duration-500 group-hover:scale-105"
                 referrerPolicy="no-referrer"

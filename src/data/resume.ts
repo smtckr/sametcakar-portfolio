@@ -241,7 +241,7 @@ export const initialResumeData: ResumeData = {
       descriptionEn: "Node-based generative pipeline running on local and cloud GPUs, chaining Flux2 and Krea2 engines with custom LoRAs and ControlNets for photorealistic outputs.",
       technologies: ["ComfyUI", "Flux2", "Krea2", "SDXL", "ControlNet", "Local AI", "Cloud GPU"],
       featured: true,
-      image: "/projects/comfyui-flux2.png",
+      image: "/projects/comfyui-flux2.jpg",
       mockupType: "analytics",
       links: [],
       caseStudy: {
@@ -271,7 +271,7 @@ export const initialResumeData: ResumeData = {
       descriptionEn: "A proprietary editing plugin built for Premiere Pro and video workflows that cuts silence, generates smart subtitles, and triples post-production speed.",
       technologies: ["AI Plugins", "Premiere Pro API", "Python", "Qwen LLM", "Whisper", "FFmpeg"],
       featured: true,
-      image: "/projects/kurgu-plugin.png",
+      image: "/projects/kurgu-plugin.jpg",
       mockupType: "monitoring",
       links: [],
       caseStudy: {
@@ -313,7 +313,7 @@ export const initialResumeData: ResumeData = {
       descriptionEn: "Modern websites and interactive portfolio experiences built with React, Next.js, and Tailwind CSS featuring 60fps canvas animations.",
       technologies: ["React", "Next.js", "Tailwind CSS", "TypeScript", "Canvas 3D", "UI/UX"],
       featured: false,
-      image: "/projects/web-arayuz.png",
+      image: "/projects/web-arayuz.jpg",
       mockupType: "ecommerce",
       links: []
     },

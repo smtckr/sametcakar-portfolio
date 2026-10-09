@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   ArrowDownRight,
   Mail,
@@ -7,6 +7,7 @@ import {
   User,
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { getHeroImageCandidates } from '../utils/imageCandidates';
 
 interface HeroSectionProps {
   onOpenContact: () => void;
@@ -14,12 +15,22 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   const { lang, t } = useLanguage();
-  const [imageFailed, setImageFailed] = useState(false);
   const firstName = 'Samet';
   const lastName = 'Çakar';
 
-  // Automatically served directly from /public/hero-portrait.jpg
-  const heroImage = !imageFailed ? '/hero-portrait.jpg' : '';
+  const heroCandidates = useMemo(() => getHeroImageCandidates(), []);
+  const [candidateIndex, setCandidateIndex] = useState(0);
+  const [imageFailed, setImageFailed] = useState(false);
+
+  const heroImage = !imageFailed && heroCandidates.length > 0 ? heroCandidates[candidateIndex] : '';
+
+  const handleHeroError = () => {
+    if (candidateIndex + 1 < heroCandidates.length) {
+      setCandidateIndex((prev) => prev + 1);
+    } else {
+      setImageFailed(true);
+    }
+  };
 
   return (
     <section id="hero" className="relative pt-12 sm:pt-20 pb-16 sm:pb-24 px-4 sm:px-6 max-w-6xl mx-auto">
@@ -105,9 +116,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
 
             {heroImage ? (
               <img
+                key={heroImage}
                 src={heroImage}
                 alt="Samet Çakar"
-                onError={() => setImageFailed(true)}
+                onError={handleHeroError}
                 className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
               />
             ) : (

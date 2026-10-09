@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Play,
   Video,
@@ -7,6 +7,7 @@ import {
   Film,
   Layers,
 } from 'lucide-react';
+import { getProjectImageCandidates } from '../utils/imageCandidates';
 
 interface ProjectMediaProps {
   title: string;
@@ -19,8 +20,29 @@ export const ProjectMedia: React.FC<ProjectMediaProps> = ({
   category,
   initialImage,
 }) => {
-  const [imgError, setImgError] = useState(false);
-  const showImage = initialImage && !imgError;
+  const candidates = useMemo(
+    () => getProjectImageCandidates(title, initialImage),
+    [title, initialImage]
+  );
+
+  const [candidateIndex, setCandidateIndex] = useState(0);
+  const [allFailed, setAllFailed] = useState(false);
+
+  useEffect(() => {
+    setCandidateIndex(0);
+    setAllFailed(false);
+  }, [candidates]);
+
+  const handleImgError = () => {
+    if (candidateIndex + 1 < candidates.length) {
+      setCandidateIndex((prev) => prev + 1);
+    } else {
+      setAllFailed(true);
+    }
+  };
+
+  const currentSrc = !allFailed && candidates.length > 0 ? candidates[candidateIndex] : '';
+  const showImage = Boolean(currentSrc) && !allFailed;
 
   // Determine category theme colors & icons
   const getCategoryTheme = () => {
@@ -75,13 +97,14 @@ export const ProjectMedia: React.FC<ProjectMediaProps> = ({
     <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-neutral-200/90 dark:border-neutral-800/90 bg-neutral-900 shadow-lg group">
       {showImage ? (
         <img
-          src={initialImage}
+          key={currentSrc}
+          src={currentSrc}
           alt={title}
-          onError={() => setImgError(true)}
+          onError={handleImgError}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
       ) : (
-        /* Rich Themed Creative Studio Visual Mockup (displays before image is placed in public/projects/) */
+        /* Rich Themed Creative Studio Visual Mockup */
         <div
           className={`relative w-full h-full bg-gradient-to-br ${theme.gradient} flex flex-col justify-between p-5 text-white select-none overflow-hidden`}
         >
