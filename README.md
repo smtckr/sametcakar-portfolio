@@ -1,20 +1,26 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# sametcakar.com
 
-# Run and deploy your AI Studio app
+Sade, statik kişisel site. Derleme (build) adımı yok: Vercel dosyaları olduğu gibi yayınlar.
 
-This contains everything you need to run your app locally.
+## Dosyalar
 
-View your app in AI Studio: https://ai.studio/apps/d17c0c62-7028-4b48-82e4-4af729456070
+| Dosya | Ne işe yarar |
+|---|---|
+| `index.html` | Sayfanın tüm metinleri burada. Bir yazıyı değiştirmek için bu dosyayı açın. |
+| `styles.css` | Renkler ve görünüm. Renkler en üstteki `:root` bölümünde. |
+| `script.js` | Tema düğmesi, mobil menü ve iletişim formu. En üstte e-posta ve YouTube ayarı var. |
+| `images/` | Görseller (WebP, sıkıştırılmış). |
+| `vercel.json` | Vercel ayarı (görsellerin önbelleğe alınması). |
 
-## Run Locally
+## İletişim formu
 
-**Prerequisites:**  Node.js
+Form, eski sitedeki gibi **FormSubmit** servisiyle `sametcakar@gmail.com` adresine e-posta gönderir.
+Adresi değiştirmek için `script.js` içindeki `ALICI_EPOSTA` satırını düzenleyin.
+Yeni bir adres kullanırsanız, ilk mesajda FormSubmit bir onay e-postası yollar; içindeki bağlantıya bir kez tıklamanız yeterli.
 
+## Yayına alma (GitHub + Vercel)
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1. GitHub'daki depoda eski dosyaların hepsini silin (`src`, `package.json`, `vite.config.ts` vb.).
+2. Bu klasördeki dosyaları deponun köküne yükleyin ve kaydedin (commit).
+3. Vercel'de proje ayarlarında **Framework Preset: Other** seçin; Build Command ve Output Directory boş kalsın.
+4. Vercel her kayıttan sonra siteyi otomatik günceller.
