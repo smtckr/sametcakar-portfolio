@@ -297,8 +297,13 @@ const YOUTUBE_ADRESI = '';
     durum.className = 'form-durum';
     durum.textContent = '';
 
+    // Mail servisi bazen yavaş yanıt veriyor: kullanıcıyı bilgilendir, 30 sn'de vazgeç
+    const bekleme = setTimeout(() => { btnYazi.textContent = 'Gönderiliyor… birkaç saniye sürebilir'; }, 4000);
+    const iptal = new AbortController();
+    const zamanAsimi = setTimeout(() => iptal.abort(), 30000);
     try {
       const yanit = await fetch(`https://formsubmit.co/ajax/${ALICI_EPOSTA}`, {
+        signal: iptal.signal,
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
@@ -319,6 +324,8 @@ const YOUTUBE_ADRESI = '';
       durum.innerHTML = `Mesaj şu an gönderilemedi. Yazdıklarınız silinmedi; tekrar deneyebilir ya da doğrudan
         <a href="mailto:${ALICI_EPOSTA}?subject=${konu}&body=${govde}">${ALICI_EPOSTA}</a> adresine yazabilirsiniz.`;
     } finally {
+      clearTimeout(bekleme);
+      clearTimeout(zamanAsimi);
       btn.disabled = false;
       btnYazi.textContent = 'Mesajı gönder';
     }
