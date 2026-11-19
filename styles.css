@@ -262,6 +262,14 @@ svg .dolu { fill: currentColor; stroke: none; }
    HAREKET VE CANLI BÖLÜMLER
    ===================================================== */
 
+/* Portre ve YouTube butonu */
+.giris-gorsel { width: 100%; max-width: 440px; justify-self: end; }
+.giris-gorsel .egim-ic img { aspect-ratio: 4 / 5; object-position: 50% 22%; }
+@media (min-width: 981px) { .giris-gorsel .donanim { left: -72px; bottom: -40px; width: 310px; } }
+.btn-youtube { background: var(--yuzey); color: var(--metin); border-color: var(--cizgi); }
+.btn-youtube svg { color: #E5322D; }
+.btn-youtube:hover { border-color: #E5322D; }
+
 /* Kaydırma ilerleme çubuğu */
 .ilerleme {
   position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 60;
@@ -556,4 +564,8 @@ svg .dolu { fill: currentColor; stroke: none; }
   .kurgu { padding: 10px; }
   .klip { font-size: 9px; padding: 0 5px; }
   .aurora { opacity: .4; }
+}
+
+@media (max-width: 980px) {
+  .giris-gorsel { justify-self: center; }
 }

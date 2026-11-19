@@ -3,7 +3,7 @@
 const ALICI_EPOSTA = 'sametcakar@gmail.com';
 
 // YouTube kanal adresinizi buraya yazın; boş kalırsa iletişimde YouTube satırı görünmez.
-const YOUTUBE_ADRESI = '';
+const YOUTUBE_ADRESI = 'https://www.youtube.com/@sametcakar.a%C4%B1';
 // ===========================================
 
 (function () {
@@ -35,6 +35,7 @@ const YOUTUBE_ADRESI = '';
   document.getElementById('yil').textContent = new Date().getFullYear();
   if (YOUTUBE_ADRESI) {
     document.getElementById('youtubeLink').href = YOUTUBE_ADRESI;
+    document.getElementById('youtubeLink').textContent = '@sametcakar.aı';
     document.querySelector('.youtube-satir').hidden = false;
   }
 
